@@ -9,21 +9,29 @@ def sortHairColor(attrtxt):
     brown_hair = []
     grey_hair = []
 
-    table = pd.read_csv(attrtxt, index_col=0, delim_whitespace=True)
+    table = pd.read_csv(attrtxt, delim_whitespace=True)
 
-    # create ~10k dataset
+    # create 10k dataset
     for i in range(10500):
         if table.loc[i, 'Black_Hair'] == 1:
-            black_hair.append(table.loc[i, 'filename'])
+            img = table.loc[i, 'filename'][:-4]
+            img = img + '.png'
+            black_hair.append(img)
 
         elif table.loc[i, 'Blond_Hair'] == 1:
-            blonde_hair.append(table.loc[i, 'filename'])
+            img = table.loc[i, 'filename'][:-4]
+            img = img + '.png'
+            blonde_hair.append(img)
 
         elif table.loc[i, 'Brown_Hair'] == 1:
-            brown_hair.append(table.loc[i, 'filename'])
+            img = table.loc[i, 'filename'][:-4]
+            img = img + '.png'
+            brown_hair.append(img)
 
         elif table.loc[i, 'Gray_Hair'] == 1:
-            grey_hair.append(table.loc[i, 'filename'])
+            img = table.loc[i, 'filename'][:-4]
+            img = img + '.png'
+            grey_hair.append(img)
 
     return blonde_hair, black_hair, brown_hair, grey_hair
 
@@ -34,7 +42,7 @@ def copyFilestoFolder(filelist, folders):
         os.mkdir(folders)
 
     for counter, p in enumerate(filelist, 1):
-        pic = p
+        pic = './img_align_celeba_png/' + p
         shutil.copy(pic, folders)
         if counter % 100 == 0:
             print("{}/{}".format(counter, len(filelist)))
@@ -42,7 +50,7 @@ def copyFilestoFolder(filelist, folders):
 
 if __name__ == "__main__":
     blonde_hair, black_hair, brown_hair, grey_hair = sortHairColor(
-           './img_align_celeba_png')
+           'list_attr_celeba.txt')
     copyFilestoFolder(blonde_hair, './blonde_hair/')
     copyFilestoFolder(black_hair, './black_hair/')
     copyFilestoFolder(brown_hair, './brown_hair/')
